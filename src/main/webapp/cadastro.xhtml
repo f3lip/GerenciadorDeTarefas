@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<title>Gerenciador de Tarefas</title>
+</h:head>
+<h:body>
+	<h:form>
+		<h:panelGrid id="mainpanel" columns="1" border="1" cellpadding="5"
+			cellspacing="1">
+			<f:facet name="header">
+				<h:outputText value="Cadastrar Tarefa" />
+			</f:facet>
+			<h:panelGrid id="panel1" columns="2" border="1" cellpadding="10"
+				cellspacing="1">
+				<h:outputLabel for="titulo">Título</h:outputLabel>
+				<h:inputText id="title" required="true" requiredMessage="O título é obrigatório." value="#{TarefaMBean.tarefa.titulo}" />
+				<h:outputLabel for="descricao">Descrição</h:outputLabel>
+				<h:inputText id="descricao" required="true" requiredMessage="A descrição é obrigatória." value="#{TarefaMBean.tarefa.descricao}" />
+			</h:panelGrid>
+			<h:panelGrid id="panel2" columns="4" border="1" cellpadding="10"
+				cellspacing="1">
+				<h:selectOneMenu value="#{TarefaMBean.tarefa.responsavel}"> Responsável
+		    		<f:selectItem itemValue="nome0" itemLabel="Select" />
+					<f:selectItem itemValue="João" itemLabel="João" />
+					<f:selectItem itemValue="Antônio" itemLabel="Antônio" />
+					<f:selectItem itemValue="Rafael" itemLabel="Rafael" />
+				</h:selectOneMenu>
+				<h:selectOneMenu value="#{TarefaMBean.tarefa.prioridade}"> Prioridade
+		    		<f:selectItem itemValue="prioridade0" itemLabel="Select" />
+					<f:selectItem itemValue="Alta" itemLabel="Alta" />
+					<f:selectItem itemValue="Média" itemLabel="Média" />
+					<f:selectItem itemValue="Baixa" itemLabel="Baixa" />
+				</h:selectOneMenu>
+			</h:panelGrid>
+			<h:panelGrid id="panel3" columns="2" border="1" cellpadding="10"
+				cellspacing="1">
+				<h:outputLabel for="deadline">Deadline</h:outputLabel>
+				<h:inputText id="deadline" required="true"
+					requiredMessage="O deadline é obrigatório."
+					value="#{TarefaMBean.tarefa.deadline}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</h:inputText>
+			</h:panelGrid>
+			<f:facet name="footer">
+				<h:panelGroup style="display:block; text-align:center">
+					<h:commandButton value="Cadastrar" action="#{TarefaMBean.cadastrar}" align="center" />
+				</h:panelGroup>
+			</f:facet>
+		</h:panelGrid>
+	</h:form>
+</h:body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<title>Gerenciador de Tarefas</title>
+</h:head>
+<h:body>
+	<h:form>
+		<h:panelGrid id="mainpanel" columns="1" border="1" cellpadding="5"
+			cellspacing="1">
+			<f:facet name="header">
+				<h:outputText value="Listagem de Tarefas" />
+			</f:facet>
+			<h:panelGrid id="panel1" columns="2" border="1" cellpadding="10"
+				cellspacing="1">
+				<h:outputLabel for="numero">Número</h:outputLabel>
+				<h:inputText id="numero" required="false" value="#{TarefaMBean.tarefa.id}"/>
+				<h:outputLabel for="titulo">Título/Descrição</h:outputLabel>
+				<h:inputText id="titulo" required="false" value="#{TarefaMBean.tarefa.titulo}"/>
+			</h:panelGrid>
+			<h:panelGrid id="panel2" columns="5" border="1" cellpadding="10"
+				cellspacing="1">
+				<h:selectOneMenu value="#{TarefaMBean.tarefa.responsavel}"> Responsável
+		    		<f:selectItem itemValue="0" itemLabel="Select" />
+					<f:selectItem itemValue="João" itemLabel="João" />
+					<f:selectItem itemValue="Antônio" itemLabel="Antônio" />
+					<f:selectItem itemValue="Rafael" itemLabel="Rafael" />
+				</h:selectOneMenu>
+				<h:selectOneMenu value="#{TarefaMBean.tarefa.status}"> Situação
+		    		<f:selectItem itemValue="0" itemLabel="Select" />
+					<f:selectItem itemValue="Em andamento" itemLabel="Em andamento" />
+					<f:selectItem itemValue="Concluída" itemLabel="Concluída" />
+				</h:selectOneMenu>
+				<h:commandButton value="Buscar" action="#{TarefaMBean.listarTarefas}" align="right" />
+			</h:panelGrid>
+		</h:panelGrid>
+	</h:form>
+	<h:form>
+		<h:dataTable value="#{TarefaMBean.listaDeTarefas}" var="tarefa" border="2"
+			cellspacing="1" cellpadding="1">
+			<h:column>
+				<f:facet name="header">Número</f:facet>
+                    #{tarefa.id}
+            </h:column>
+			<h:column>
+				<f:facet name="header">Título</f:facet>
+                    #{tarefa.titulo}
+            </h:column>
+			<h:column>
+				<f:facet name="header">Responsável</f:facet>
+                    #{tarefa.responsavel}
+            </h:column>
+			<h:column>
+				<f:facet name="header">Ações</f:facet>
+					<h:commandButton value="Editar" action="#{editarTarefaMBean.editarTarefa()}" align="left" >
+						<f:param name="idTarefa" value="#{tarefa.id}"/>
+					</h:commandButton>
+					<h:commandButton value="Excluir" action="#{tarefaMBean.excluirTarefa()}" align="center" >
+						<f:setPropertyActionListener target="#{tarefaMBean.tarefa}" value="#{tarefa}"/>
+					</h:commandButton>
+					<h:commandButton value="Concluir" action="#{tarefaMBean.concluirTarefa()}" process="@all" align="center" >
+						<f:setPropertyActionListener target="#{tarefaMBean.tarefa}" value="#{tarefa}"/>
+					</h:commandButton>
+            </h:column>
+		</h:dataTable>
+	</h:form>
+</h:body>
+</html>
