@@ -4,20 +4,20 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:b="http://bootsfaces.net/ui">
+    xmlns:b="http://bootsfaces.net/ui">
 <h:head>
 	<title>Gerenciador de Tarefas</title>
 </h:head>
 <h:body>
 	<b:form>
 	
-		<b:panelGrid columns="1">
+		<b:panelGrid id="mainpanel" columns="1">
 			<h:outputLabel value="Listagem de Tarefas" style="margin-left:15px; font-size:20px"/>
-			<b:panelGrid columns="1">
+			<b:panelGrid id="panel1" columns="1">
 				<b:inputText label="Número" id="numero" required="false" value="#{TarefaMBean.tarefa.id}" large-screen="one-fourth"/>
 				<b:inputText label="Título/Descrição" id="titulo" required="false" value="#{TarefaMBean.tarefa.titulo}" large-screen="two-thirds"/>
 			</b:panelGrid>
-			<b:panelGrid columns="4" style="margin-left:15px">
+			<b:panelGrid id="panel2" columns="4" style="margin-left:15px">
 				<b:selectOneMenu label="Responsável" value="#{TarefaMBean.tarefa.responsavel}">
 		    		<f:selectItem itemValue="0" itemLabel="Select" />
 					<f:selectItem itemValue="João" itemLabel="João" />
@@ -31,13 +31,10 @@
 				</b:selectOneMenu>
 				<b:commandButton value="Buscar Tarefas" action="#{TarefaMBean.listarTarefas}" style="margin-top:25px; width:230px"/>
 			</b:panelGrid>
-			<b:panelGrid columns="1">
-				
-			</b:panelGrid>
 		</b:panelGrid>
 	</b:form>
-	<h:form>
-		<b:dataTable value="#{TarefaMBean.listaDeTarefas}" var="tarefa" class="tarefaEditable">
+	<b:form style="width:98%; margin-left:15px;">
+		<b:dataTable value="#{TarefaMBean.listaDeTarefas}" var="tarefa" class="tarefaEditable" searching="false">
 			<b:dataTableColumn label="Número" value="#{tarefa.id}" order="asc"/>
 			<b:dataTableColumn label="Título">
 				<b:inputText value="#{tarefa.titulo}" rendered="#{tarefa.editable}" />
@@ -63,6 +60,6 @@
 					</b:commandButton>
             </b:dataTableColumn>
 		</b:dataTable>
-	</h:form>
+	</b:form>
 </h:body>
 </html>
