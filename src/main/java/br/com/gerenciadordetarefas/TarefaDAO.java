@@ -79,7 +79,7 @@ public class TarefaDAO{
 		return listaTarefas;
 	}
 	
-	public void atualizarStatus(Tarefa t){
+	public void atualizarTarefa(Tarefa t){
 		Session session = null;
 		try {
 			session = HibernateUtility.getSessionFactory().openSession();

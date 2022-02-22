@@ -16,7 +16,7 @@ public class TarefaMBean {
 	private Tarefa tarefa = new Tarefa();
 	private TarefaDAO dao = new TarefaDAO();
 	private List<Tarefa> listaDeTarefas;
-	
+	private boolean editable;
 	
 	
 	public void cadastrar() {
@@ -39,15 +39,20 @@ public class TarefaMBean {
 	
 	public void excluirTarefa() {
 		tarefa.setStatus("Excluída");
-		dao.atualizarStatus(tarefa);
+		dao.atualizarTarefa(tarefa);
 	}
 	
 	public void concluirTarefa() {
 		tarefa.setStatus("Concluída");
-		dao.atualizarStatus(tarefa);
+		dao.atualizarTarefa(tarefa);
+	}
+	
+	public void atualizarTarefa() {
+		dao.atualizarTarefa(tarefa);
 	}
 	
 	public void setTarefa(Tarefa tarefa) {
 		this.tarefa = tarefa;
 	}
+
 }

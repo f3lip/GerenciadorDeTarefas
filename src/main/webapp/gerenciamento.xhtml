@@ -3,69 +3,66 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
 <h:head>
 	<title>Gerenciador de Tarefas</title>
 </h:head>
 <h:body>
-	<h:form>
-		<h:panelGrid id="mainpanel" columns="1" border="1" cellpadding="5"
-			cellspacing="1">
-			<f:facet name="header">
-				<h:outputText value="Listagem de Tarefas" />
-			</f:facet>
-			<h:panelGrid id="panel1" columns="2" border="1" cellpadding="10"
-				cellspacing="1">
-				<h:outputLabel for="numero">Número</h:outputLabel>
-				<h:inputText id="numero" required="false" value="#{TarefaMBean.tarefa.id}"/>
-				<h:outputLabel for="titulo">Título/Descrição</h:outputLabel>
-				<h:inputText id="titulo" required="false" value="#{TarefaMBean.tarefa.titulo}"/>
-			</h:panelGrid>
-			<h:panelGrid id="panel2" columns="5" border="1" cellpadding="10"
-				cellspacing="1">
-				<h:selectOneMenu value="#{TarefaMBean.tarefa.responsavel}"> Responsável
+	<b:form>
+	
+		<b:panelGrid columns="1">
+			<h:outputLabel value="Listagem de Tarefas" style="margin-left:15px; font-size:20px"/>
+			<b:panelGrid columns="1">
+				<b:inputText label="Número" id="numero" required="false" value="#{TarefaMBean.tarefa.id}" large-screen="one-fourth"/>
+				<b:inputText label="Título/Descrição" id="titulo" required="false" value="#{TarefaMBean.tarefa.titulo}" large-screen="two-thirds"/>
+			</b:panelGrid>
+			<b:panelGrid columns="4" style="margin-left:15px">
+				<b:selectOneMenu label="Responsável" value="#{TarefaMBean.tarefa.responsavel}">
 		    		<f:selectItem itemValue="0" itemLabel="Select" />
 					<f:selectItem itemValue="João" itemLabel="João" />
 					<f:selectItem itemValue="Antônio" itemLabel="Antônio" />
 					<f:selectItem itemValue="Rafael" itemLabel="Rafael" />
-				</h:selectOneMenu>
-				<h:selectOneMenu value="#{TarefaMBean.tarefa.status}"> Situação
+				</b:selectOneMenu>
+				<b:selectOneMenu label="Situação" value="#{TarefaMBean.tarefa.status}">
 		    		<f:selectItem itemValue="0" itemLabel="Select" />
 					<f:selectItem itemValue="Em andamento" itemLabel="Em andamento" />
 					<f:selectItem itemValue="Concluída" itemLabel="Concluída" />
-				</h:selectOneMenu>
-				<h:commandButton value="Buscar" action="#{TarefaMBean.listarTarefas}" align="right" />
-			</h:panelGrid>
-		</h:panelGrid>
-	</h:form>
+				</b:selectOneMenu>
+				<b:commandButton value="Buscar Tarefas" action="#{TarefaMBean.listarTarefas}" style="margin-top:25px; width:230px"/>
+			</b:panelGrid>
+			<b:panelGrid columns="1">
+				
+			</b:panelGrid>
+		</b:panelGrid>
+	</b:form>
 	<h:form>
-		<h:dataTable value="#{TarefaMBean.listaDeTarefas}" var="tarefa" border="2"
-			cellspacing="1" cellpadding="1">
-			<h:column>
-				<f:facet name="header">Número</f:facet>
-                    #{tarefa.id}
-            </h:column>
-			<h:column>
-				<f:facet name="header">Título</f:facet>
-                    #{tarefa.titulo}
-            </h:column>
-			<h:column>
-				<f:facet name="header">Responsável</f:facet>
-                    #{tarefa.responsavel}
-            </h:column>
-			<h:column>
-				<f:facet name="header">Ações</f:facet>
-					<h:commandButton value="Editar" action="#{editarTarefaMBean.editarTarefa()}" align="left" >
-						<f:param name="idTarefa" value="#{tarefa.id}"/>
-					</h:commandButton>
-					<h:commandButton value="Excluir" action="#{tarefaMBean.excluirTarefa()}" align="center" >
+		<b:dataTable value="#{TarefaMBean.listaDeTarefas}" var="tarefa" class="tarefaEditable">
+			<b:dataTableColumn label="Número" value="#{tarefa.id}" order="asc"/>
+			<b:dataTableColumn label="Título">
+				<b:inputText value="#{tarefa.titulo}" rendered="#{tarefa.editable}" />
+      			<h:outputText value="#{tarefa.titulo}" rendered="#{not tarefa.editable}" />
+			</b:dataTableColumn>
+			<b:dataTableColumn label="Responsável">
+				<b:inputText value="#{tarefa.responsavel}" rendered="#{tarefa.editable}" />
+      			<h:outputText value="#{tarefa.responsavel}" rendered="#{not tarefa.editable}" />
+			</b:dataTableColumn>
+			<b:dataTableColumn label="Ações" orderable="false">
+					<b:commandButton value="Editar" ajax="true" align="left" update="@(.tarefaEditable)" onclick="ajax:tarefa.editTarefa;" rendered="#{not tarefa.editable}">
 						<f:setPropertyActionListener target="#{tarefaMBean.tarefa}" value="#{tarefa}"/>
-					</h:commandButton>
-					<h:commandButton value="Concluir" action="#{tarefaMBean.concluirTarefa()}" process="@all" align="center" >
+					</b:commandButton>
+					<b:commandButton value="Excluir" action="#{tarefaMBean.excluirTarefa()}" align="center" rendered="#{not tarefa.editable}">
 						<f:setPropertyActionListener target="#{tarefaMBean.tarefa}" value="#{tarefa}"/>
-					</h:commandButton>
-            </h:column>
-		</h:dataTable>
+					</b:commandButton>
+					<b:commandButton value="Concluir" action="#{tarefaMBean.concluirTarefa()}" process="@all" align="center" rendered="#{not tarefa.editable}">
+						<f:setPropertyActionListener target="#{tarefaMBean.tarefa}" value="#{tarefa}"/>
+					</b:commandButton>
+					<b:commandButton value="Salvar" ajax="true" align="left" update="@(.tarefaEditable)" onclick="ajax:tarefa.editTarefa;" 
+					action="#{tarefaMBean.atualizarTarefa()}" rendered="#{tarefa.editable}">
+						<f:setPropertyActionListener target="#{tarefaMBean.tarefa}" value="#{tarefa}"/>
+					</b:commandButton>
+            </b:dataTableColumn>
+		</b:dataTable>
 	</h:form>
 </h:body>
 </html>

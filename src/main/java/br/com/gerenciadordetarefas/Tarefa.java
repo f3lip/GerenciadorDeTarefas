@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity(name = "Tarefa")
 @Table(name = "tarefas")
@@ -27,7 +28,10 @@ public class Tarefa {
 	private Date deadline;
 	@Column(name = "status")
 	private String status;
-
+	
+	@Transient
+	private boolean editable;
+	
 	public Tarefa() {
 
 	}
@@ -96,4 +100,22 @@ public class Tarefa {
 	public String getStatus(){
 		return this.status;
 	}
+	
+	
+	public boolean getEditable() {
+		return editable;
+	}
+	
+	public void setEditable(boolean editable) {
+		this.editable = editable;
+	}
+	
+	public String editTarefa(){
+		if(editable) {
+			setEditable(false);
+		} else {
+			setEditable(true);
+		}
+	    return null;
+   }
 }
