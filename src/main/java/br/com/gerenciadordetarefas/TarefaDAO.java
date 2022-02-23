@@ -2,10 +2,14 @@ package br.com.gerenciadordetarefas;
 
 import br.com.gerenciadordetarefas.Tarefa;
 import conexoes.HibernateUtility;
+import net.bootsfaces.utils.FacesMessages;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 /*
 import javax.persistence.TypedQuery;
@@ -30,10 +34,10 @@ public class TarefaDAO{
 			session.beginTransaction();
 			session.save(t);
 			session.getTransaction().commit();
-			session.close();
-			System.out.println("Cadastrado");
+			FacesMessages.info("test:cadastro", "Info", "<strong>Tarefa número " + t.getId() +" cadastrada com sucesso!</strong>");
 		} catch (HibernateException e){
 			e.printStackTrace();
+			FacesMessages.fatal("test:cadastro", "fatal", "<strong>Não foi possível realizar o cadastro.</strong>");
 		} finally {
 			if(session != null) {
 				session.close();
@@ -48,10 +52,6 @@ public class TarefaDAO{
 		try {
 			session = HibernateUtility.getSessionFactory().openSession();
 			String sql;
-			System.out.println(t.getId());
-			System.out.println(t.getTitulo());
-			System.out.println(t.getResponsavel());
-			System.out.println(t.getStatus());
 			sql = "SELECT * FROM tarefas WHERE 1=1 and status!='Excluída'";
 			if(t.getId() != null) {
 				sql += " and id=" + t.getId();
@@ -65,10 +65,7 @@ public class TarefaDAO{
 			if(!t.getStatus().equals("0")) {
 				sql += " and status='" + t.getStatus() +"'";
 			}
-			System.out.println(sql);
 			listaTarefas = session.createSQLQuery(sql).addEntity(Tarefa.class).getResultList();
-			session.close();
-			System.out.println(listaTarefas);
 		} catch (HibernateException e){
 			e.printStackTrace();
 		} finally {
@@ -86,10 +83,47 @@ public class TarefaDAO{
 			session.beginTransaction();
 			session.update(t);
 			session.getTransaction().commit();
-			session.close();
-			System.out.println("Atualizado");
+			FacesMessages.info("**:salvar", "Info", "<strong>Tarefa número " + t.getId() +" foi alterada com sucesso!</strong>");
 		} catch (HibernateException e){
 			e.printStackTrace();
+			FacesMessages.fatal("**:salvar", "fatal", "<strong>Não foi possível realizar a alteração.</strong>");
+		} finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+	
+	public void excluirTarefa(Tarefa t){
+		Session session = null;
+		try {
+			session = HibernateUtility.getSessionFactory().openSession();
+			session.beginTransaction();
+			session.update(t);
+			session.getTransaction().commit();
+			FacesMessages.info("**:excluir", "Info", "<strong>Tarefa número " + t.getId() +" foi excluída com sucesso!</strong>");
+		} catch (HibernateException e){
+			e.printStackTrace();
+			FacesMessages.fatal("**:excluir", "fatal", "<strong>Não foi possível realizar a exclusão.</strong>");
+		} finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+	
+	public void concluirTarefa(Tarefa t){
+		Session session = null;
+		try {
+			session = HibernateUtility.getSessionFactory().openSession();
+			session.beginTransaction();
+			session.update(t);
+			session.getTransaction().commit();
+			session.close();
+			FacesMessages.info("**:concluir", "Info", "<strong>Tarefa número " + t.getId() +" foi concluída com sucesso!</strong>");
+		} catch (HibernateException e){
+			e.printStackTrace();
+			FacesMessages.fatal("**:concluir", "fatal", "<strong>Não foi possível concluir a tarefa.</strong>");
 		} finally {
 			if(session != null) {
 				session.close();
@@ -106,8 +140,6 @@ public class TarefaDAO{
 			sql = "SELECT * FROM tarefas WHERE id=" + id;
 			System.out.println(sql);
 			tarefa = (Tarefa) session.createSQLQuery(sql).addEntity(Tarefa.class).getSingleResult();
-			session.close();
-			System.out.println(tarefa.getTitulo());
 		} catch (HibernateException e){
 			e.printStackTrace();
 		} finally {
