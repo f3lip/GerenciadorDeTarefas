@@ -9,45 +9,57 @@
 	<title>Gerenciador de Tarefas</title>
 </h:head>
 <h:body>
-	<b:form>
-		<b:panelGrid id="mainpanel" columns="1">
-			<h:outputLabel value="Listagem de Tarefas" style="margin-left:15px; font-size:20px"/>
-			<b:panelGrid id="panel1" columns="1">
-				<b:inputText label="Número" id="numero" required="false" value="#{TarefaMBean.tarefa.id}" large-screen="one-fourth"/>
-				<b:inputText label="Título/Descrição" id="titulo" required="false" value="#{TarefaMBean.tarefa.titulo}" large-screen="two-thirds"/>
-			</b:panelGrid>
-			<b:panelGrid id="panel2" columns="4" style="margin-left:15px">
-				<b:selectOneMenu label="Responsável" value="#{TarefaMBean.tarefa.responsavel}">
-		    		<f:selectItem itemValue="0" itemLabel="Select" />
-					<f:selectItem itemValue="João" itemLabel="João" />
-					<f:selectItem itemValue="Antônio" itemLabel="Antônio" />
-					<f:selectItem itemValue="Rafael" itemLabel="Rafael" />
-				</b:selectOneMenu>
-				<b:selectOneMenu label="Situação" value="#{TarefaMBean.tarefa.status}">
-		    		<f:selectItem itemValue="0" itemLabel="Select" />
-					<f:selectItem itemValue="Em andamento" itemLabel="Em andamento" />
-					<f:selectItem itemValue="Concluída" itemLabel="Concluída" />
-				</b:selectOneMenu>
-				<b:commandButton value="Buscar Tarefas" action="#{TarefaMBean.listarTarefas}" style="margin-top:25px; width:230px"/>
-			</b:panelGrid>
-		</b:panelGrid> 
-	</b:form>
+	<b:navBar brand="Gerenciador de Tarefas" style="font-weight:bold; width:98%; margin-left:15px;" brandHref="index.jsf">
+	  <b:navbarLinks>
+	    <b:navLink value="Cadastrar Tarefa" href="cadastro.jsf"></b:navLink>
+	    <b:navLink value="Listagem de Tarefas" href="gerenciamento.jsf"></b:navLink>
+	  </b:navbarLinks>
+	</b:navBar>
+	<b:panel title="Listagem de Tarefas" style="width:98%; margin-left:15px;" collapsible="false">
+		<b:form>
+			<b:panelGrid id="mainpanel" columns="1">
+				<b:panelGrid id="panel1" columns="1">
+					<b:inputText label="Número" id="numero" required="false" value="#{TarefaMBean.tarefa.id}" large-screen="one-fourth"/>
+					<b:inputText label="Título/Descrição" id="titulo" required="false" value="#{TarefaMBean.tarefa.titulo}" large-screen="two-thirds"/>
+				</b:panelGrid>
+				<b:panelGrid id="panel2" columns="4" style="margin-left:15px">
+					<b:selectOneMenu label="Responsável" value="#{TarefaMBean.tarefa.responsavel}">
+			    		<f:selectItem itemValue="0" itemLabel="Select" />
+						<f:selectItem itemValue="João" itemLabel="João" />
+						<f:selectItem itemValue="Antônio" itemLabel="Antônio" />
+						<f:selectItem itemValue="Rafael" itemLabel="Rafael" />
+					</b:selectOneMenu>
+					<b:selectOneMenu label="Situação" value="#{TarefaMBean.tarefa.status}">
+			    		<f:selectItem itemValue="0" itemLabel="Select" />
+						<f:selectItem itemValue="Em andamento" itemLabel="Em andamento" />
+						<f:selectItem itemValue="Concluída" itemLabel="Concluída" />
+					</b:selectOneMenu>
+					<b:commandButton value="Buscar Tarefas" action="#{TarefaMBean.listarTarefas}" style="margin-top:25px; width:220px"/>
+				</b:panelGrid>
+			</b:panelGrid> 
+		</b:form>
+	</b:panel>
 	<b:form id="formTabela" style="width:98%; margin-left:15px;">
-			<b:dataTable id="tabela" ajax="true" value="#{TarefaMBean.listaDeTarefas}" var="tarefa" class="tarefaEditable" searching="false" auto-update="true">
+			<b:dataTable id="tabela" ajax="true" value="#{TarefaMBean.listaDeTarefas}" var="tarefa" class="tarefaEditable" searching="false">
 				<b:dataTableColumn label="Número" value="#{tarefa.id}" order="asc"/>
 				<b:dataTableColumn label="Título">
-					<b:inputText value="#{tarefa.titulo}" rendered="#{tarefa.editable}" />
-	      			<h:outputText value="#{tarefa.titulo}" rendered="#{not tarefa.editable}" />
+					<b:inputText value="#{tarefa.titulo}" rendered="#{tarefa.saveButton}" />
+	      			<h:outputText value="#{tarefa.titulo}" rendered="#{not tarefa.saveButton}" />
 				</b:dataTableColumn>
 				<b:dataTableColumn label="Responsável">
-					<b:inputText value="#{tarefa.responsavel}" rendered="#{tarefa.editable}" />
-	      			<h:outputText value="#{tarefa.responsavel}" rendered="#{not tarefa.editable}" />
+					<b:selectOneMenu value="#{tarefa.responsavel}" rendered="#{tarefa.saveButton}">
+			    		<f:selectItem itemValue="nome0" itemLabel="Select" />
+						<f:selectItem itemValue="João" itemLabel="João" />
+						<f:selectItem itemValue="Antônio" itemLabel="Antônio" />
+						<f:selectItem itemValue="Rafael" itemLabel="Rafael" />
+					</b:selectOneMenu>
+	      			<h:outputText value="#{tarefa.responsavel}" rendered="#{not tarefa.saveButton}" />
 				</b:dataTableColumn>
 				<b:dataTableColumn id="acoes" label="Ações" orderable="false">
-						<b:commandButton value="Editar" ajax="true" align="left" update="@(.tarefaEditable)" onclick="ajax:tarefa.editTarefa;" rendered="#{not tarefa.editable}">
+						<b:commandButton value="Editar" ajax="true" align="left" update="@(.tarefaEditable)" onclick="ajax:tarefa.changeSaveButton" rendered="#{not tarefa.editable and tarefa.status ne 'Concluída'}">
 							<f:setPropertyActionListener target="#{tarefaMBean.tarefa}" value="#{tarefa}"/>
 						</b:commandButton>
-						<b:commandButton value="Excluir" id="excluir" ajax="true" action="#{tarefaMBean.excluirTarefa()}" align="center" rendered="#{not tarefa.editable}">
+						<b:commandButton value="Excluir" id="excluir" ajax="true" action="#{tarefaMBean.excluirTarefa()}" align="center" update="@(.tarefaEditable)" onclick="ajax:tarefa.editTarefa" rendered="#{not tarefa.editable and tarefa.status ne 'Concluída'}">
 							<f:setPropertyActionListener target="#{tarefaMBean.tarefa}" value="#{tarefa}"/>
 						</b:commandButton>
 						<b:growl for="excluir" id="growlExcluir" placementFrom="top" show-detail="true"
@@ -56,7 +68,7 @@
 				         animation-enter="animated bounceInDown"
 				         animation-exit="animated flipOutX"
 				         escape="false" timer="5000" />
-						<b:commandButton value="Concluir" id="concluir" ajax="true" action="#{tarefaMBean.concluirTarefa()}" align="center" rendered="#{not tarefa.editable}">
+						<b:commandButton value="Concluir" id="concluir" ajax="true" action="#{tarefaMBean.concluirTarefa()}" align="center" update="@(.tarefaEditable)" onclick="ajax:tarefa.editTarefa" rendered="#{not tarefa.editable and tarefa.status ne 'Concluída'}">
 							<f:setPropertyActionListener target="#{tarefaMBean.tarefa}" value="#{tarefa}"/>
 						</b:commandButton>
 						<b:growl for="concluir" id="growlConcluir" placementFrom="top" show-detail="true"
@@ -65,8 +77,8 @@
 				         animation-enter="animated bounceInDown"
 				         animation-exit="animated flipOutX"
 				         escape="false" timer="5000" />
-						<b:commandButton value="Salvar" id="salvar" ajax="true" align="left" update="@(.tarefaEditable)" onclick="ajax:tarefa.editTarefa"
-						action="#{tarefaMBean.atualizarTarefa()}" rendered="#{tarefa.editable}">
+						<b:commandButton value="Salvar" id="salvar" ajax="true" align="left" update="@(.tarefaEditable)" onclick="ajax:tarefa.changeSaveButton"
+						action="#{tarefaMBean.atualizarTarefa()}" rendered="#{tarefa.saveButton}">
 							<f:setPropertyActionListener target="#{tarefaMBean.tarefa}" value="#{tarefa}"/>
 						</b:commandButton>
 						<b:growl for="salvar" id="growlAtualizar" placementFrom="top" show-detail="true"

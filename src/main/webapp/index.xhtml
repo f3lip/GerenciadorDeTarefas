@@ -3,14 +3,37 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
 <h:head>
 	<title>Gerenciador de Tarefas</title>
 </h:head>
 <h:body>
-	<h:panelGroup style="display:block; text-align:center">
-		<h:button value="Cadastrar Tarefa" outcome="cadastro.xhtml"/>
-		<h:button value="Gerenciar Tarefas" outcome="gerenciamento.xhtml"/>
-	</h:panelGroup>
+	<b:navBar brand="Gerenciador de Tarefas" style="font-weight:bold; width:98%; margin-left:15px;" brandHref="index.jsf">
+	  <b:navbarLinks>
+	    <b:navLink value="Cadastrar Tarefa" href="cadastro.jsf"></b:navLink>
+	    <b:navLink value="Listagem de Tarefas" href="gerenciamento.jsf"></b:navLink>
+	  </b:navbarLinks>
+	</b:navBar>
+	<b:jumbotron style="width:98%; margin-left:15px;">
+	<h1 style="margin-left:1px">Gerenciador de Tarefas</h1>
+	<h2 style="margin-left:15px">Funcionalidades Disponíveis</h2>
+	<h3 style="margin-left:15px">Cadastrar Tarefa: Uma tarefa pode ser cadastrada desde que todos os campos obrigatórios 
+	estejam preenchidos. Uma mensagem será exibida no canto superior direito da tela após a conclusão da operação.</h3>
+	<p style="margin-left:15px">- Título: Campo de Texto (obrigatório)</p>
+	<p style="margin-left:15px">- Descrição: Campo de Texto (obrigatório)</p>
+	<p style="margin-left:15px">- Responsável: Campo de Seleção (obrigatório)</p>
+	<p style="margin-left:15px">- Prioridade: Campo de Seleção (obrigatório)</p>
+	<p style="margin-left:15px">- Deadline: Campo de Data (obrigatório)</p>
+	<h3 style="margin-left:15px">Listagem de Tarefas: Uma tarefa pode ser buscada sem usar nenhum filtro (busca geral) 
+	ou utilizando um ou mais filtros. Na listagem, será possível editar, excluir ou concluir uma tarefa.
+	É importante observar que tarefas que tenham situação diferente de "Em andamento" não contarão com nenhuma ação disponível para ser executada.</h3>
+	<p style="margin-left:25px"> Ações Disponíveis</p>
+	<p style="margin-left:30px">- Editar: Clicando no botão de "Editar" será possível alterar, diretamente na listagem, 
+	o título ou o responsável pela tarefa. Após concluir as alterações, o botão "Salvar" estará disponível na tela 
+	para concluir o procedimento. Uma mensagem será exibida no canto superior direito da tela com a conclusão da operação.</p>
+	<p style="margin-left:30px">- Excluir</p>
+	<p style="margin-left:30px">- Concluir</p>
+	</b:jumbotron>
 </h:body>
 </html>

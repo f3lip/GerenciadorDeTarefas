@@ -31,6 +31,8 @@ public class Tarefa {
 	
 	@Transient
 	private boolean editable;
+	@Transient
+	private boolean saveButton;
 	
 	public Tarefa() {
 
@@ -118,4 +120,23 @@ public class Tarefa {
 		}
 	    return null;
    }
+	
+	public String changeSaveButton() {
+		if(editable) {
+			setEditable(false);
+			setSaveButton(false);
+		} else {
+			setEditable(true);
+			setSaveButton(true);
+		}
+		return null;
+	}
+	
+	public void setSaveButton(boolean saveButton) {
+		this.saveButton = saveButton;
+	}
+	
+	public boolean getSaveButton() {
+		return saveButton;
+	}
 }

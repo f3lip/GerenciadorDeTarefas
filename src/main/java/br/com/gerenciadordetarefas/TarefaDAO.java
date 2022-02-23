@@ -34,10 +34,10 @@ public class TarefaDAO{
 			session.beginTransaction();
 			session.save(t);
 			session.getTransaction().commit();
-			FacesMessages.info("test:cadastro", "Info", "<strong>Tarefa número " + t.getId() +" cadastrada com sucesso!</strong>");
+			FacesMessages.info("formCadastro:cadastro", "Info", "<strong>Tarefa número " + t.getId() +" cadastrada com sucesso!</strong>");
 		} catch (HibernateException e){
 			e.printStackTrace();
-			FacesMessages.fatal("test:cadastro", "fatal", "<strong>Não foi possível realizar o cadastro.</strong>");
+			FacesMessages.fatal("formCadastro:cadastro", "fatal", "<strong>Não foi possível realizar o cadastro.</strong>");
 		} finally {
 			if(session != null) {
 				session.close();

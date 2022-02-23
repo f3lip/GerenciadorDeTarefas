@@ -9,44 +9,50 @@
 	<title>Gerenciador de Tarefas</title>
 </h:head>
 <h:body>
-	<b:form id="test">
-		<b:panelGrid id="mainpanel" columns="1">
-				<h:outputText value="Cadastrar Tarefa" style="margin-left:15px; font-size:20px"/>
-			<b:panelGrid id="panel1" columns="1" style="width:98%; margin-left:15px;">
-				<b:inputText label="Título" id="title" required="true" requiredMessage="O título é obrigatório." value="#{TarefaMBean.tarefa.titulo}" />
-				<b:inputText label="Descrição" id="descricao" required="true" requiredMessage="A descrição é obrigatória." value="#{TarefaMBean.tarefa.descricao}" />
+	<b:navBar brand="Gerenciador de Tarefas" style="font-weight:bold; width:98%; margin-left:15px;" brandHref="index.jsf">
+	  <b:navbarLinks>
+	    <b:navLink value="Cadastrar Tarefa" href="cadastro.jsf"></b:navLink>
+	    <b:navLink value="Listagem de Tarefas" href="gerenciamento.jsf"></b:navLink>
+	  </b:navbarLinks>
+	</b:navBar>
+	<b:panel title="Cadastrar Tarefa" style="width:98%; margin-left:15px;" collapsible="false">
+		<b:form id="formCadastro">
+			<b:panelGrid id="mainpanel" columns="1">
+				<b:panelGrid id="panel1" columns="1" style="width:98%; margin-left:15px;">
+					<b:inputText label="Título" id="title" required="true" requiredMessage="O título é obrigatório." value="#{TarefaMBean.tarefa.titulo}" />
+					<b:inputTextarea label="Descrição" id="descricao" required="true" requiredMessage="A descrição é obrigatória." value="#{TarefaMBean.tarefa.descricao}" />
+				</b:panelGrid>
+				<b:panelGrid id="panel2" columns="2" style="width:98%; margin-left:15px;">
+					<b:selectOneMenu label="Responsável" value="#{TarefaMBean.tarefa.responsavel}" required="true">
+			    		<f:selectItem itemValue="nome0" itemLabel="Select" />
+						<f:selectItem itemValue="João" itemLabel="João" />
+						<f:selectItem itemValue="Antônio" itemLabel="Antônio" />
+						<f:selectItem itemValue="Rafael" itemLabel="Rafael" />
+					</b:selectOneMenu>
+					<b:selectOneMenu label="Prioridade" value="#{TarefaMBean.tarefa.prioridade}" required="true">
+			    		<f:selectItem itemValue="prioridade0" itemLabel="Select" />
+						<f:selectItem itemValue="Alta" itemLabel="Alta" />
+						<f:selectItem itemValue="Média" itemLabel="Média" />
+						<f:selectItem itemValue="Baixa" itemLabel="Baixa" />
+					</b:selectOneMenu>
+				</b:panelGrid>
+				<b:panelGrid id="panel3" columns="2" style="width:98%; margin-left:15px;">
+					<b:dateTimePicker format="DD/MM/YYYY" label="Deadline" id="deadline" required="true"
+						requiredMessage="O deadline é obrigatório."
+						value="#{TarefaMBean.tarefa.deadline}">
+					</b:dateTimePicker>
+				</b:panelGrid>
+				<b:panelGrid id="cadastroGrid" columns="1" style="display:block; text-align:center">
+					<b:commandButton ajax="true" update="@form" id="cadastro" value="Cadastrar" action="#{TarefaMBean.cadastrar}" align="center"/>
+					<b:growl for="cadastro" id="growlSpecific" placementFrom="top" show-detail="true"
+				         global-only="false"
+				         show-summary="false" allow-dismiss="true"
+				         animation-enter="animated bounceInDown"
+				         animation-exit="animated flipOutX"
+				         escape="false" timer="5000" />
+				</b:panelGrid>
 			</b:panelGrid>
-			<b:panelGrid id="panel2" columns="2" style="width:98%; margin-left:15px;">
-				<b:selectOneMenu label="Responsável" value="#{TarefaMBean.tarefa.responsavel}" required="true">
-		    		<f:selectItem itemValue="nome0" itemLabel="Select" />
-					<f:selectItem itemValue="João" itemLabel="João" />
-					<f:selectItem itemValue="Antônio" itemLabel="Antônio" />
-					<f:selectItem itemValue="Rafael" itemLabel="Rafael" />
-				</b:selectOneMenu>
-				<b:selectOneMenu label="Prioridade" value="#{TarefaMBean.tarefa.prioridade}" required="true">
-		    		<f:selectItem itemValue="prioridade0" itemLabel="Select" />
-					<f:selectItem itemValue="Alta" itemLabel="Alta" />
-					<f:selectItem itemValue="Média" itemLabel="Média" />
-					<f:selectItem itemValue="Baixa" itemLabel="Baixa" />
-				</b:selectOneMenu>
-			</b:panelGrid>
-			<b:panelGrid id="panel3" columns="2" style="width:98%; margin-left:15px;">
-				<b:datepicker label="Deadline" id="deadline" required="true"
-					requiredMessage="O deadline é obrigatório."
-					value="#{TarefaMBean.tarefa.deadline}">
-					<f:convertDateTime pattern="dd/MM/yyyy" />
-				</b:datepicker>
-			</b:panelGrid>
-			<b:panelGrid id="cadastroGrid" columns="1" style="display:block; text-align:center">
-				<b:commandButton ajax="true" update="@form" id="cadastro" value="Cadastrar" action="#{TarefaMBean.cadastrar}" align="center"/>
-				<b:growl for="cadastro" id="growlSpecific" placementFrom="top" show-detail="true"
-			         global-only="false"
-			         show-summary="false" allow-dismiss="true"
-			         animation-enter="animated bounceInDown"
-			         animation-exit="animated flipOutX"
-			         escape="false" timer="5000" />
-			</b:panelGrid>
-		</b:panelGrid>
-	</b:form>
+		</b:form>
+	</b:panel>
 </h:body>
 </html>
