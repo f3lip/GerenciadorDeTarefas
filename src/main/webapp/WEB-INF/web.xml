@@ -30,5 +30,11 @@
     	<param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
     	<param-value>true</param-value>
 	</context-param>
+	
+	<!-- Activates the waitcursor and the double-click protection -->
+	<context-param>
+		<param-name>net.bootsfaces.blockUI</param-name>
+		<param-value>true</param-value>
+	</context-param>
 
 </web-app>

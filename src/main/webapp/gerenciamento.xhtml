@@ -9,6 +9,14 @@
 	<title>Gerenciador de Tarefas</title>
 </h:head>
 <h:body>
+	<script>
+	    $.blockUI.defaults.css.width = '20%';
+	    $.blockUI.defaults.css.left = '40%';
+	    $.blockUI.defaults.css.height = '5em';
+	    $.blockUI.defaults.css.borderRadius = '10px';
+	    $.blockUI.defaults.overlayCSS.opacity = 0.5;
+	    $.blockUI.defaults.message = '<div style="padding-top:1em"><b:spinner name="circle-o-notch" size="2x" /> Processando.. </div>';
+	</script>
 	<b:navBar brand="Gerenciador de Tarefas" style="font-weight:bold; width:98%; margin-left:15px;" brandHref="index.jsf">
 	  <b:navbarLinks>
 	    <b:navLink value="Cadastrar Tarefa" href="cadastro.jsf"></b:navLink>
@@ -46,15 +54,19 @@
 					<b:inputText value="#{tarefa.titulo}" rendered="#{tarefa.saveButton}" />
 	      			<h:outputText value="#{tarefa.titulo}" rendered="#{not tarefa.saveButton}" />
 				</b:dataTableColumn>
+				<b:dataTableColumn label="Descrição">
+					<b:inputText value="#{tarefa.descricao}" rendered="#{tarefa.saveButton}" />
+	      			<h:outputText value="#{tarefa.descricao}" rendered="#{not tarefa.saveButton}" />
+				</b:dataTableColumn>
 				<b:dataTableColumn label="Responsável">
 					<b:selectOneMenu value="#{tarefa.responsavel}" rendered="#{tarefa.saveButton}">
-			    		<f:selectItem itemValue="nome0" itemLabel="Select" />
 						<f:selectItem itemValue="João" itemLabel="João" />
 						<f:selectItem itemValue="Antônio" itemLabel="Antônio" />
 						<f:selectItem itemValue="Rafael" itemLabel="Rafael" />
 					</b:selectOneMenu>
 	      			<h:outputText value="#{tarefa.responsavel}" rendered="#{not tarefa.saveButton}" />
 				</b:dataTableColumn>
+				<b:dataTableColumn label="Situação" value="#{tarefa.status}"/>
 				<b:dataTableColumn id="acoes" label="Ações" orderable="false">
 						<b:commandButton value="Editar" ajax="true" align="left" update="@(.tarefaEditable)" onclick="ajax:tarefa.changeSaveButton" rendered="#{not tarefa.editable and tarefa.status ne 'Concluída'}">
 							<f:setPropertyActionListener target="#{tarefaMBean.tarefa}" value="#{tarefa}"/>
