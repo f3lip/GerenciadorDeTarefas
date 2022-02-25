@@ -9,14 +9,6 @@
 	<title>Gerenciador de Tarefas</title>
 </h:head>
 <h:body>
-	<script>
-	    $.blockUI.defaults.css.width = '20%';
-	    $.blockUI.defaults.css.left = '40%';
-	    $.blockUI.defaults.css.height = '5em';
-	    $.blockUI.defaults.css.borderRadius = '10px';
-	    $.blockUI.defaults.overlayCSS.opacity = 0.5;
-	    $.blockUI.defaults.message = '<div style="padding-top:1em"><b:spinner name="circle-o-notch" size="2x" /> Processando.. </div>';
-	</script>
 	<b:navBar brand="Gerenciador de Tarefas" style="font-weight:bold; width:98%; margin-left:15px;" brandHref="index.jsf">
 	  <b:navbarLinks>
 	    <b:navLink value="Cadastrar Tarefa" href="cadastro.jsf"></b:navLink>
@@ -62,5 +54,13 @@
 			</b:panelGrid>
 		</b:form>
 	</b:panel>
+	<script>
+	    $.blockUI.defaults.css.width = '20%';
+	    $.blockUI.defaults.css.left = '40%';
+	    $.blockUI.defaults.css.height = '5em';
+	    $.blockUI.defaults.css.borderRadius = '10px';
+	    $.blockUI.defaults.overlayCSS.opacity = 0.5;
+	    $.blockUI.defaults.message = '<div style="padding-top:1em"><b:spinner name="circle-o-notch" size="2x" /> Processando.. </div>';
+	</script>
 </h:body>
 </html>

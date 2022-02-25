@@ -9,6 +9,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+/*
+ * Classe para instanciar um objeto "Tarefa", conforme estruturado em banco de dados.
+ * Os atributos "editable" e "saveButton" não são persistidos em banco e servem apenas para indicar se os botões de ação
+ * devem estar disponíveis e se o botão de salvar deve estar disponível para o objeto específico que está sendo representado.
+ */
+
 @Entity(name = "Tarefa")
 @Table(name = "tarefas")
 public class Tarefa {

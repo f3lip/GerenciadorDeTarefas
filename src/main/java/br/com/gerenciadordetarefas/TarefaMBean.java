@@ -21,7 +21,6 @@ public class TarefaMBean {
 	private TarefaDAO dao = new TarefaDAO();
 	private List<Tarefa> listaDeTarefas;
 	
-	
 	public void cadastrar() {
 		tarefa.setStatus("Em andamento");
 		dao.cadastrarTarefa(tarefa);

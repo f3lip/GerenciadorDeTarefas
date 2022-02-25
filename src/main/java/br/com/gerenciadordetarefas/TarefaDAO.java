@@ -11,22 +11,23 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
-/*
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-*/
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+/*
+ * Realiza todas as operações em banco de dados referentes a um objeto "Tarefa"
+ */
+
 
 @SuppressWarnings("unused")
 public class TarefaDAO{
+	/*
+	 * Realiza o cadastro da tarefa e retorna uma mensagem ao usuário em tela informando se a tarefa foi cadastrada, juntamente com o seu número (id), 
+	 * ou uma outra mensagem se não foi possível realizar o cadastro
+	 */
 	public void cadastrarTarefa(Tarefa t){
 		Session session = null;
 		try {
@@ -45,6 +46,11 @@ public class TarefaDAO{
 		}
 	}
 	
+	/*
+	 * Obtém a lista de tarefas de acordo com o filtro selecionado, sendo possível filtrar por 
+	 * número/id, título, responsável ou status, ou ainda não filtrar e obter a listagem de todas as tarefas,
+	 * com exceção de tarefas com situação de "Excluída" que não devem ser exibidas para o usuário.
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Tarefa> listarTarefas(Tarefa t){
 		Session session = null;
@@ -76,6 +82,10 @@ public class TarefaDAO{
 		return listaTarefas;
 	}
 	
+	/*
+	 * Realiza a edição de uma tarefa com base em seu id e informa ao usuário se a operação foi bem sucedida,
+	 * e qual tarefa foi alterada, ou retorna uma mensagem de impedimento.
+	 */
 	public void atualizarTarefa(Tarefa t){
 		Session session = null;
 		try {
@@ -94,6 +104,12 @@ public class TarefaDAO{
 		}
 	}
 	
+	/*
+	 * Realiza a exclusão lógica de uma tarefa com base em seu id e informa ao usuário se a operação foi bem sucedida,
+	 * e qual tarefa foi excluída, ou retorna uma mensagem de impedimento. Por se tratar de uma exclusão lógica, 
+	 * o status da tarefa é alterado para "Excluída", e ela não será mais exibida para o usuário, e nem será possível realizar
+	 * nenhuma outra operação a respeito da tarefa que foi excluída, porém o registro permanece em banco de dados.
+	 */
 	public void excluirTarefa(Tarefa t){
 		Session session = null;
 		try {
@@ -112,6 +128,10 @@ public class TarefaDAO{
 		}
 	}
 	
+	/*
+	 * Altera a tarefa para a situação de "Concluída" com base em seu id e informa ao usuário se a operação foi bem sucedida,
+	 * e qual tarefa foi concluída, ou retorna uma mensagem de impedimento.
+	 */
 	public void concluirTarefa(Tarefa t){
 		Session session = null;
 		try {
@@ -129,24 +149,5 @@ public class TarefaDAO{
 				session.close();
 			}
 		}
-	}
-	
-	public Tarefa getTarefaById(String id) {
-		Session session = null;
-		Tarefa tarefa = null;
-		try {
-			session = HibernateUtility.getSessionFactory().openSession();
-			String sql;
-			sql = "SELECT * FROM tarefas WHERE id=" + id;
-			System.out.println(sql);
-			tarefa = (Tarefa) session.createSQLQuery(sql).addEntity(Tarefa.class).getSingleResult();
-		} catch (HibernateException e){
-			e.printStackTrace();
-		} finally {
-			if(session != null) {
-				session.close();
-			}
-		}
-		return tarefa;
 	}
 }
